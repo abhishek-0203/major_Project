@@ -1,0 +1,28 @@
+[
+  {
+    "client_id": "123",
+    "developer_id": "456",
+    "project_name": "AI-Project",
+    "start_time": "2025-05-09T22:43:09.311118201+05:30",
+    "end_time": "2025-05-09T22:44:01.402448613+05:30",
+    "duration": "52.091330413s",
+    "messages": [
+      {
+        "sender_id": "123",
+        "sender_name": "John",
+        "sender_type": "client",
+        "project_name": "AI-Project",
+        "message": "hiii",
+        "time": "2025-05-09T22:43:24.969501078+05:30"
+      },
+      {
+        "sender_id": "123",
+        "sender_name": "John",
+        "sender_type": "client",
+        "project_name": "AI-Project",
+        "message": "i am a looking for the UI/UX design for android",
+        "time": "2025-05-09T22:43:54.440493871+05:30"
+      }
+    ]
+  }
+]
