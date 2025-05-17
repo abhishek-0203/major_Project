@@ -32,7 +32,7 @@ func LoginRequestWithGet(c *gin.Context) {
 	passwd, isExist := userLocalDb.ValidUsers[email]
 	if isExist {
 		if passwd == password {
-			loginUser = userLocalDb.LoginUser{Email: email, Password: password, Phone: phone, Status: true, Message: "Logged in successfully."}
+			loginUser = userLocalDb.LoginUser{Email: email, Password: password, Phone: phone, Status: true, Message: "Logged in successfully.", Token: email}
 			userLocalDb.LoggedInUserList = append(userLocalDb.LoggedInUserList, loginUser)
 			c.JSON(http.StatusOK, gin.H{"data": loginUser})
 		} else {

@@ -6,4 +6,5 @@ type LoginUser struct {
 	Email    string `json:"email,omitempty"`
 	Status   bool   `json:"status,omitempty"`
 	Message  string `json:"message,omitempty"`
+	Token    string `json:"token,omitempty"`
 }
