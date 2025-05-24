@@ -13,7 +13,7 @@ func main() {
 	route := gin.Default()
 
 	route.POST("/login", login.LoginRequestWithPost)
-	route.GET("/signup", signup.SignUpRequestWithGet)
+	route.POST("/signup", signup.SignUpRequestWithPost)
 	route.GET("/forgotpassword", forgot.ForgotPasswordWithGet)
 	route.GET("/reset-password", forgot.ResetPasswordWithGet)
 
@@ -30,5 +30,6 @@ func main() {
 		routes.RegisterClientRoutes(route)
 		routes.RegisterDeveloperRoutes(route)
 	*/
-	route.Run() // listen and serve on 0.0.0.0:8080
+	route.Run("192.168.1.10:8080") // listen and serve on 0.0.0.0:8080
+	//route.Run() // listen and serve on 0.0.0.0:8080
 }

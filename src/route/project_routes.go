@@ -30,7 +30,7 @@ func RegisterProject(route *gin.Engine) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusOK, projectsList)
+		c.JSON(http.StatusOK, gin.H{"projects": projectsList})
 	})
 
 	// POST: Create a new project

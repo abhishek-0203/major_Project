@@ -1,3 +1,6 @@
+{
+"projects": 
+
 [
   {
     "project_title": "Crypto Portfolio Tracker",
@@ -94,3 +97,4 @@
     "notes": "Ensure calorie tracking logic is accurate."
   }
 ]
+}

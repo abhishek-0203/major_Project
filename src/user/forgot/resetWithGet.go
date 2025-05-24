@@ -15,9 +15,15 @@ func ResetPasswordWithGet(c *gin.Context) {
 
 	token := params.Get("token")
 	newPassword := params.Get("newPassword")
+	userType := params.Get("userType")
 
-	if token == "" || newPassword == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Token and new password are required"})
+	if token == "" || newPassword == "" || userType == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Token, new password, and user type are required"})
+		return
+	}
+
+	if userType != "client" && userType != "developer" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user type"})
 		return
 	}
 
@@ -43,8 +49,12 @@ func ResetPasswordWithGet(c *gin.Context) {
 		return
 	}
 
-	// Update password
-	userLocalDb.ValidUsers[email] = string(hashedPassword)
+	// Update password based on user type
+	if userType == "client" {
+		userLocalDb.ClientValidUsers[email] = string(hashedPassword)
+	} else {
+		userLocalDb.DeveloperValidUsers[email] = string(hashedPassword)
+	}
 
 	// Invalidate token
 	delete(userLocalDb.ResetTokens, token)

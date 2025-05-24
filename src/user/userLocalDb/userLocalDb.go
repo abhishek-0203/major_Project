@@ -6,8 +6,8 @@ import "time"
 var LoggedInUserList = make([]LoginUser, 10)
 
 /* It contains the allowed Email ids*/
-var ValidUsers = map[string]string{"User_1@gmail.com": "Passwd_1", "User_2@gmail.com": "Passwd_2", "User_3@gmail.com": "Passwd_3", "User_4@gmail.com": "Passwd_4", "User_5@gmail.com": "Passwd_5"}
-
+var ClientValidUsers = map[string]string{"User_1@gmail.com": "Passwd_1", "User_2@gmail.com": "Passwd_2", "User_3@gmail.com": "Passwd_3", "User_4@gmail.com": "Passwd_4", "User_5@gmail.com": "Passwd_5"}
+var DeveloperValidUsers = map[string]string{"Dev_1@gmail.com": "Passwd_1", "Dev_2@gmail.com": "Passwd_2"}
 var RegisteredUser = make(map[string]string)
 
 var ResetTokens = make(map[string]string)    // token- email

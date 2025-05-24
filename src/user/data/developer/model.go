@@ -9,4 +9,6 @@ type Developer struct {
 	LinkedIn     string   `json:"linkedin"`
 	Available    string   `json:"available"`
 	ContactEmail string   `json:"contact_email" validate:"required,email"`
+	Address      string   `json:"address"`
+	Projects     []string `json:"projects"`
 }

@@ -13,7 +13,9 @@
     "experience": 0,
     "linkedin": "linkedin.com/in/alex-johnson-dev",
     "available": "yes",
-    "contact_email": "alex.contact@dev.com"
+    "contact_email": "alex.contact@dev.com",
+    "address": "",
+    "projects": null
   },
   {
     "developer_id": "",
@@ -28,6 +30,110 @@
     "experience": 0,
     "linkedin": "linkedin.com/in/alex-johnson-dev",
     "available": "yes",
-    "contact_email": "alex.contact@dev.com"
+    "contact_email": "alex.contact@dev.com",
+    "address": "",
+    "projects": null
+  },
+  {
+    "developer_id": "",
+    "name": "abhishek",
+    "email": "User_1@gmail.com",
+    "skills": [
+      "JavaScript",
+      "React",
+      "HTML",
+      "CSS"
+    ],
+    "experience": 0,
+    "linkedin": "linkedin.com/in/alex-johnson-dev",
+    "available": "yes",
+    "contact_email": "alex.contact@dev.com",
+    "address": "",
+    "projects": null
+  },
+  {
+    "developer_id": "",
+    "name": "abhishek",
+    "email": "User_1@gmail.com",
+    "skills": [
+      "JavaScript",
+      "React",
+      "HTML",
+      "CSS"
+    ],
+    "experience": 0,
+    "linkedin": "linkedin.com/in/alex-johnson-dev",
+    "available": "yes",
+    "contact_email": "alex.contact@dev.com",
+    "address": "",
+    "projects": null
+  },
+  {
+    "developer_id": "",
+    "name": "abhishek",
+    "email": "User_1@gmail.com",
+    "skills": [
+      "JavaScript",
+      "React",
+      "HTML",
+      "CSS"
+    ],
+    "experience": 0,
+    "linkedin": "linkedin.com/in/alex-johnson-dev",
+    "available": "yes",
+    "contact_email": "alex.contact@dev.com",
+    "address": "",
+    "projects": null
+  },
+  {
+    "developer_id": "",
+    "name": "abhishek",
+    "email": "User_1@gmail.com",
+    "skills": [
+      "JavaScript",
+      "React",
+      "HTML",
+      "CSS"
+    ],
+    "experience": 0,
+    "linkedin": "linkedin.com/in/alex-johnson-dev",
+    "available": "yes",
+    "contact_email": "alex.contact@dev.com",
+    "address": "",
+    "projects": null
+  },
+  {
+    "developer_id": "",
+    "name": "abhishek",
+    "email": "User_1@gmail.com",
+    "skills": [
+      "JavaScript",
+      "React",
+      "HTML",
+      "CSS"
+    ],
+    "experience": 0,
+    "linkedin": "linkedin.com/in/alex-johnson-dev",
+    "available": "yes",
+    "contact_email": "alex.contact@dev.com",
+    "address": "",
+    "projects": null
+  },
+  {
+    "developer_id": "",
+    "name": "abhishek",
+    "email": "Dev_1@gmail.com",
+    "skills": [
+      "JavaScript",
+      "React",
+      "HTML",
+      "CSS"
+    ],
+    "experience": 0,
+    "linkedin": "linkedin.com/in/alex-johnson-dev",
+    "available": "yes",
+    "contact_email": "alex.contact@dev.com",
+    "address": "",
+    "projects": null
   }
 ]

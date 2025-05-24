@@ -54,7 +54,12 @@ func RegisterClient(route *gin.Engine) {
 				return
 			}
 
-			c.JSON(http.StatusCreated, gin.H{"message": "Client added successfully"})
+			// *** MODIFICATION START ***
+			c.JSON(http.StatusCreated, gin.H{
+				"message": "Client added successfully",
+				"client":  newClient, // Include the newly added client data
+			})
+			// *** MODIFICATION END ***
 		})
 
 	// PUT update client by index

@@ -18,12 +18,15 @@ func LoadProjectsFromFile(filePath string) ([]Project, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file: %v", err)
 	}
+	// Unmarshalling the JSON data into a struct
+	var wrapper struct { // struct wrapper
+		Projects []Project `json:"projects"`
+	}
 
-	var projects []Project
-	err = json.Unmarshal(byteValue, &projects)
+	err = json.Unmarshal(byteValue, &wrapper)
 	if err != nil {
 		return nil, fmt.Errorf("failed to unmarshal json: %v", err)
 	}
 
-	return projects, nil
+	return wrapper.Projects, nil
 }

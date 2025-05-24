@@ -53,6 +53,12 @@ func RegisterDeveloper(route *gin.Engine) {
 		}
 
 		c.JSON(http.StatusCreated, gin.H{"message": "Developer added successfully"})
+		// *** MODIFICATION START ***
+		c.JSON(http.StatusCreated, gin.H{
+			"message":   "Developer added successfully",
+			"developer": newDev, // Include the newly added developer data
+		})
+		// *** MODIFICATION END ***
 	})
 
 	// PUT update developer by index

@@ -14,13 +14,30 @@ func ForgotPasswordWithGet(c *gin.Context) {
 	params, _ := url.ParseQuery(query)
 
 	email := params.Get("email")
+	userType := params.Get("userType")
+
 	if email == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Email is required"})
 		return
 	}
 
+	if userType == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "User type is required"})
+		return
+	}
+
 	// Check if user exists
-	if _, exists := userLocalDb.ValidUsers[email]; !exists {
+	var exists bool
+	if userType == "client" {
+		_, exists = userLocalDb.ClientValidUsers[email]
+	} else if userType == "developer" {
+		_, exists = userLocalDb.DeveloperValidUsers[email]
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user type"})
+		return
+	}
+
+	if !exists {
 		c.JSON(http.StatusNotFound, gin.H{"error": "No user found with this email"})
 		return
 	}

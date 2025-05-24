@@ -7,4 +7,5 @@ type LoginUser struct {
 	Status   bool   `json:"status,omitempty"`
 	Message  string `json:"message,omitempty"`
 	Token    string `json:"token,omitempty"`
+	Role     string `json:"role,omitempty"`
 }
