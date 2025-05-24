@@ -34,7 +34,7 @@ func RegisterProject(route *gin.Engine) {
 	})
 
 	// POST: Create a new project
-	route.POST("/projects", func(c *gin.Context) {
+	route.POST("/createProject", func(c *gin.Context) {
 		var newProject projects.Project
 		if err := c.ShouldBindJSON(&newProject); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -57,7 +57,7 @@ func RegisterProject(route *gin.Engine) {
 	})
 
 	// PUT: Update project by index
-	route.PUT("/projects/:index", func(c *gin.Context) {
+	route.PUT("/updateProject/:index", func(c *gin.Context) {
 		index, err := strconv.Atoi(c.Param("index"))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid index"})
@@ -91,7 +91,7 @@ func RegisterProject(route *gin.Engine) {
 	})
 
 	// DELETE: Remove project by index
-	route.DELETE("/projects/:index", func(c *gin.Context) {
+	route.DELETE("/deleteProject/:index", func(c *gin.Context) {
 		index, err := strconv.Atoi(c.Param("index"))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid index"})

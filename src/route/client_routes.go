@@ -34,7 +34,7 @@ func RegisterClient(route *gin.Engine) {
 		})
 
 	// POST new client
-	route.POST("/clients",
+	route.POST("/createClientProfile",
 		func(c *gin.Context) {
 			var newClient client.Client
 			if err := c.ShouldBindJSON(&newClient); err != nil {
@@ -58,7 +58,7 @@ func RegisterClient(route *gin.Engine) {
 		})
 
 	// PUT update client by index
-	route.PUT("/clients/:index", func(c *gin.Context) {
+	route.PUT("/updateClientProfile/:index", func(c *gin.Context) {
 		index, err := strconv.Atoi(c.Param("index"))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid index"})
@@ -92,7 +92,7 @@ func RegisterClient(route *gin.Engine) {
 	})
 
 	// DELETE client by index
-	route.DELETE("/clients/:index", func(c *gin.Context) {
+	route.DELETE("/deleteClientProfile/:index", func(c *gin.Context) {
 		index, err := strconv.Atoi(c.Param("index"))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid index"})

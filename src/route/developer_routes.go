@@ -33,7 +33,7 @@ func RegisterDeveloper(route *gin.Engine) {
 	})
 
 	// POST new developer
-	route.POST("/developers", func(c *gin.Context) {
+	route.POST("/createDeveloperProfile", func(c *gin.Context) {
 		var newDev developer.Developer
 		if err := c.ShouldBindJSON(&newDev); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -56,7 +56,7 @@ func RegisterDeveloper(route *gin.Engine) {
 	})
 
 	// PUT update developer by index
-	route.PUT("/developers/:index", func(c *gin.Context) {
+	route.PUT("/updateDeveloperProfile/:index", func(c *gin.Context) {
 		index, err := strconv.Atoi(c.Param("index"))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid index"})
@@ -90,7 +90,7 @@ func RegisterDeveloper(route *gin.Engine) {
 	})
 
 	// DELETE developer by index
-	route.DELETE("/developers/:index", func(c *gin.Context) {
+	route.DELETE("/deleteDeveloperProfile/:index", func(c *gin.Context) {
 		index, err := strconv.Atoi(c.Param("index"))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid index"})
