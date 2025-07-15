@@ -16,7 +16,7 @@ type SignUpRequest struct {
 	Role string `json:"role" binding:"required"`
 }
 
-func SignUpRequestWithPost(c *gin.Context) {
+func SignUpRequestWithPost(c *gin.Context) { // Renamed from SignUpRequestWithGet to SignUpRequestWithPost
 	var req SignUpRequest
 
 	// Bind the JSON request body to the SignUpRequest struct
