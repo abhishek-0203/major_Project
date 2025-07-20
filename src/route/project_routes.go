@@ -20,7 +20,7 @@ func saveProjectsToFile(filePath string, projectsList []projects.Project) error 
 	return ioutil.WriteFile(filePath, data, 0644)
 }
 
-func RegisterProject(route *gin.Engine) {
+func RegisterProject(route *gin.RouterGroup) {
 	filePath := "Doc/project/project.json"
 
 	// GET all projects
