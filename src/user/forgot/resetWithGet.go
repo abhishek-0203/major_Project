@@ -22,30 +22,32 @@ func ResetPasswordWithGet(c *gin.Context) {
 		return
 	}
 
+	// Validate user type
 	if userType != "client" && userType != "developer" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user type"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user type. Must be 'client' or 'developer'."})
 		return
 	}
 
+	// Check token existence and expiry
 	email, tokenExists := userLocalDb.ResetTokens[token]
 	expiry, timeExists := userLocalDb.TokenExpiry[token]
 
 	if !tokenExists || !timeExists {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or expired token"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or expired token. Please request a new password reset."})
 		return
 	}
 
 	if time.Now().After(expiry) {
 		delete(userLocalDb.ResetTokens, token)
 		delete(userLocalDb.TokenExpiry, token)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Token has expired"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Token has expired. Please request a new password reset."})
 		return
 	}
 
-	// Hash new password
+	// Hash new password securely
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to securely hash password."})
 		return
 	}
 
