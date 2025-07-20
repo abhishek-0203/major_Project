@@ -5,12 +5,12 @@ import (
 	"net/http"
 )
 
-func RegisterDeveloperRoutes(r *gin.Engine) {
-	group := r.Group("/developers")
-	group.GET("/", GetDevelopers)
-	group.POST("/", CreateDeveloper)
-	group.PUT("/:email", UpdateDeveloper)
-	group.DELETE("/:email", DeleteDeveloper)
+func RegisterDeveloper(route *gin.RouterGroup) {
+	group := route.Group("")
+	group.GET("/developers", GetDevelopers)
+	group.POST("/developers", CreateDeveloper)
+	group.PUT("/developers/:email", UpdateDeveloper)
+	group.DELETE("/developers/:email", DeleteDeveloper)
 }
 
 func GetDevelopers(c *gin.Context) {
