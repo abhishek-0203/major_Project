@@ -5,8 +5,8 @@ import (
 	"majorProject/src/payment"
 )
 
-func RegisterPaymentRoutes(r *gin.Engine) {
-	pay := r.Group("/api/payment")
+func RegisterPaymentRoutes(route *gin.RouterGroup) {
+	pay := route.Group("/api/payment")
 	{
 		pay.POST("/initiate", payment.InitiatePayment)
 		pay.GET("/all", payment.GetAllPayments)
