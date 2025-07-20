@@ -8,8 +8,8 @@ import (
 )
 
 // RegisterVideoCallRoutes sets up the video call scheduling endpoint.
-func RegisterVideoCallRoutes(router *gin.Engine) {
-	router.POST("/schedule-call", func(c *gin.Context) {
+func RegisterVideoCallRoutes(route *gin.RouterGroup) {
+	route.POST("/schedule-call", func(c *gin.Context) {
 		var newCall VideoCall // VideoCall is from model.go
 		if err := c.ShouldBindJSON(&newCall); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
