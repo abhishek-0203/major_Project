@@ -19,7 +19,7 @@ func saveDevelopersToFile(filePath string, developersList []developer.Developer)
 	return ioutil.WriteFile(filePath, data, 0644)
 }
 
-func RegisterDeveloper(route *gin.Engine) {
+func RegisterDeveloper(route *gin.RouterGroup) {
 	filePath := "Doc/project/developer.json"
 
 	// GET all developers
