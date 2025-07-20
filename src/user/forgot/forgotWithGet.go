@@ -5,19 +5,23 @@ import (
 	"github.com/google/uuid"
 	"majorProject/src/user/userLocalDb"
 	"net/http"
-	"net/url"
+	"regexp"
 	"time"
 )
 
 func ForgotPasswordWithGet(c *gin.Context) {
-	query := c.Request.URL.RawQuery
-	params, _ := url.ParseQuery(query)
-
-	email := params.Get("email")
-	userType := params.Get("userType")
+	// Use c.Query for cleaner query param parsing
+	email := c.Query("email")
+	userType := c.Query("userType")
 
 	if email == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Email is required"})
+		return
+	}
+
+	// Validate email format (simple regex)
+	if !isValidEmail(email) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid email format"})
 		return
 	}
 
@@ -44,9 +48,10 @@ func ForgotPasswordWithGet(c *gin.Context) {
 
 	// Generate reset token
 	token := uuid.New().String()
-	expiry := time.Now().Add(15 * time.Minute)
+	const tokenExpiryMinutes = 15
+	expiry := time.Now().Add(tokenExpiryMinutes * time.Minute)
 
-	// Save token
+	// Save token (consider hashing in production)
 	userLocalDb.ResetTokens[token] = email
 	userLocalDb.TokenExpiry[token] = expiry
 
@@ -54,9 +59,14 @@ func ForgotPasswordWithGet(c *gin.Context) {
 	resetLink := "http://localhost:8080/reset-password?token=" + token
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":     "Password reset link generated.",
-		"reset_token": token,
-		"expires_in":  "15 minutes",
-		"reset_link":  resetLink, // mock link
+		"message":    "Password reset link generated.",
+		"expires_in": "15 minutes",
+		"reset_link": resetLink, // mock link
 	})
+}
+
+// isValidEmail checks basic email format
+func isValidEmail(email string) bool {
+	// Simplified regex, removed redundant escapes
+	return regexp.MustCompile(`^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$`).MatchString(email)
 }
