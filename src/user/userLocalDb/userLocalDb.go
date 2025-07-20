@@ -1,6 +1,10 @@
 package userLocalDb
 
-import "time"
+import (
+	"time"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 /** It contains the Logged-in Users */
 var LoggedInUserList = make([]LoginUser, 10)
@@ -10,8 +14,14 @@ var ClientValidUsers = map[string]string{"User_1@gmail.com": "Passwd_1", "User_2
 var DeveloperValidUsers = map[string]string{"Dev_1@gmail.com": "Passwd_1", "Dev_2@gmail.com": "Passwd_2"}
 var RegisteredUser = make(map[string]string)
 
-var ResetTokens = make(map[string]string)    // token- email
-var TokenExpiry = make(map[string]time.Time) // token -expiry time
+// Add maps to store full user structs for verification and other features
+var Clients = make(map[string]Client)       // email -> Client struct
+var Developers = make(map[string]Developer) // email -> Developer struct
+
+var ResetTokens = make(map[string]string)                // token- email
+var TokenExpiry = make(map[string]time.Time)             // token -expiry time
+var EmailVerificationTokens = make(map[string]string)    // token- email
+var EmailVerificationExpiry = make(map[string]time.Time) // token -expiry time
 
 const DEVELOPER = "developer"
 const CLIENT = "client"
@@ -33,17 +43,19 @@ type Developer struct {
 	Experience    string   `json:"experience,omitempty"`
 	Availability  string   `json:"availability,omitempty"`
 	RatePerHour   float32  `json:"rate_per_hour,omitempty"`
+	IsVerified    bool     `json:"is_verified"`
 }
 
 var client = Client{}
 
 type Client struct {
-	Name     string `json:"name"`
-	Phone    string `JSON:"phone,omitempty"`
-	Password string `JSON:"password,omitempty"`
-	Email    string `JSON:"email,omitempty"`
-	Age      int    `JSON:"age,omitempty"`
-	Gender   string `JSON:"gender,omitempty"`
+	Name       string `json:"name"`
+	Phone      string `JSON:"phone,omitempty"`
+	Password   string `JSON:"password,omitempty"`
+	Email      string `JSON:"email,omitempty"`
+	Age        int    `JSON:"age,omitempty"`
+	Gender     string `JSON:"gender,omitempty"`
+	IsVerified bool   `json:"is_verified"`
 }
 type ProjectDetail struct {
 	Requirement  string   `json:"Requirement,omitempty"`
@@ -51,4 +63,17 @@ type ProjectDetail struct {
 	Budget       float32  `json:"budget,omitempty"`
 	TimePeriod   int      `json:"time_period,omitempty"`
 	PastBookings []string `json:"past_bookings,omitempty"`
+}
+
+func init() {
+	// Hash and store initial client passwords
+	for email, pwd := range ClientValidUsers {
+		hash, _ := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.DefaultCost)
+		ClientValidUsers[email] = string(hash)
+	}
+	// Hash and store initial developer passwords
+	for email, pwd := range DeveloperValidUsers {
+		hash, _ := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.DefaultCost)
+		DeveloperValidUsers[email] = string(hash)
+	}
 }
