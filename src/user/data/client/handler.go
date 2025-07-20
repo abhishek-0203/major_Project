@@ -5,12 +5,12 @@ import (
 	"net/http"
 )
 
-func RegisterClientRoutes(r *gin.Engine) {
-	group := r.Group("/clients")
-	group.GET("/", GetClients)
-	group.POST("/", CreateClient)
-	group.PUT("/:email", UpdateClient)
-	group.DELETE("/:email", DeleteClient)
+func RegisterClient(route *gin.RouterGroup) {
+	group := route.Group("")
+	group.GET("/clients", GetClients)
+	group.POST("/clients", CreateClient)
+	group.PUT("/clients/:email", UpdateClient)
+	group.DELETE("/clients/:email", DeleteClient)
 }
 
 func GetClients(c *gin.Context) {
