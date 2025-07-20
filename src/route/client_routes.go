@@ -19,7 +19,7 @@ func saveClientsToFile(filePath string, clientsList []client.Client) error {
 	return ioutil.WriteFile(filePath, data, 0644)
 }
 
-func RegisterClient(route *gin.Engine) {
+func RegisterClient(route *gin.RouterGroup) {
 	filePath := "Doc/project/client.json"
 
 	// GET all clients
