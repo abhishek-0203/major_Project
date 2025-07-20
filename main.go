@@ -2,34 +2,41 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	routes "majorProject/src/route"
+	"majorProject/src/route"
 	"majorProject/src/user/forgot"
 	"majorProject/src/user/login"
+	"majorProject/src/user/middleware"
 	"majorProject/src/user/signup"
+	"majorProject/src/user/verify"
 	"majorProject/src/video"
 )
 
 func main() {
-	route := gin.Default()
+	router := gin.Default()
 
-	route.POST("/login", login.LoginRequestWithPost)
-	route.POST("/signup", signup.SignUpRequestWithPost)
-	route.GET("/forgotpassword", forgot.ForgotPasswordWithGet)
-	route.GET("/reset-password", forgot.ResetPasswordWithGet)
+	// Public routes (no JWT required)
+	router.POST("/login", login.LoginRequestWithPost)
+	router.POST("/signup", signup.SignUpRequestWithPost)
+	router.GET("/forgotpassword", forgot.ForgotPasswordWithGet)
+	router.GET("/reset-password", forgot.ResetPasswordWithGet)
+	router.GET("/verify-email", verify.VerifyEmailWithGet)
 
-	routes.RegisterProject(route)
-	routes.RegisterClient(route)
-	routes.RegisterDeveloper(route)
+	// Protected routes (JWT required)
+	protected := router.Group("/")
+	protected.Use(middleware.JWTAuthMiddleware())
+	{
+		route.RegisterProject(protected)
+		route.RegisterClient(protected)
+		route.RegisterDeveloper(protected)
+		route.RegisterChat(protected)
+		video.RegisterVideoCallRoutes(protected)
+		route.RegisterPaymentRoutes(protected)
 
-	routes.RegisterChat(route)
-	video.RegisterVideoCallRoutes(route)
-	routes.RegisterVideoRoutes(route)
-	routes.RegisterPaymentRoutes(route)
-	/*
-		routes.RegisterProjectRoutes(route)
-		routes.RegisterClientRoutes(route)
-		routes.RegisterDeveloperRoutes(route)
-	*/
-	route.Run() // listen and serve on 0.0.0.0:8080
-	//route.Run() // listen and serve on 0.0.0.0:8080
+		// Add other protected routes here
+	}
+
+	err := router.Run()
+	if err != nil {
+		panic(err)
+	}
 }
