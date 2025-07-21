@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-func RegisterProjectRoutes(r *gin.Engine) {
-	group := r.Group("/projects")
+func RegisterProject(route *gin.RouterGroup) {
+	group := route.Group("/projects")
 	group.GET("/getProjects", GetProjects)
 	group.POST("/createProject", CreateProject)
 	group.PUT("/updateProject/:title", UpdateProject)
@@ -28,9 +28,14 @@ func CreateProject(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	var err error
 	projects, _ := LoadProjects()
 	projects = append(projects, newProject)
-	SaveProjects(projects)
+	err = SaveProjects(projects)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"message": "Project created successfully"})
 }
 
@@ -45,7 +50,11 @@ func UpdateProject(c *gin.Context) {
 	for i, proj := range projects {
 		if proj.ProjectTitle == title {
 			projects[i] = updatedProject
-			SaveProjects(projects)
+			err := SaveProjects(projects)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
 			c.JSON(http.StatusOK, gin.H{"message": "Project updated"})
 			return
 		}
@@ -59,7 +68,11 @@ func DeleteProject(c *gin.Context) {
 	for i, proj := range projects {
 		if proj.ProjectTitle == title {
 			projects = append(projects[:i], projects[i+1:]...)
-			SaveProjects(projects)
+			err := SaveProjects(projects)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
 			c.JSON(http.StatusOK, gin.H{"message": "Project deleted"})
 			return
 		}

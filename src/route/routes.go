@@ -2,16 +2,14 @@ package route
 
 import (
 	"github.com/gin-gonic/gin"
+	"majorProject/src/projects"
+	"majorProject/src/user/data/developer"
 )
 
 func RegisterProjectRoutes(route *gin.RouterGroup) {
-	RegisterProject(route)
-}
-
-func RegisterClientRoutes(route *gin.RouterGroup) {
-	RegisterClient(route)
+	projects.RegisterProject(route)
 }
 
 func RegisterDeveloperRoutes(route *gin.RouterGroup) {
-	RegisterDeveloper(route)
+	developer.RegisterDeveloper(route)
 }
