@@ -30,5 +30,5 @@ func main() {
 		routes.RegisterClientRoutes(route)
 		routes.RegisterDeveloperRoutes(route)
 	*/
-	route.Run("192.168.1.7:8080") // listen and serve on 0.0.0.0:8080
+	route.Run() // listen and serve on 0.0.0.0:8080
 }
