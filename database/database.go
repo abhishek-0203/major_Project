@@ -4,9 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-
 	// Switched to a CGO-free driver for easier compilation and portability.
-	_ "modernc.org/sqlite"
+	//_ "modernc.org/sqlite"
 )
 
 const dbPath = "./project_management.db" // Path to your SQLite database file
