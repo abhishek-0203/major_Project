@@ -1,18 +1,17 @@
 package projects
 
 type Project struct {
-	ProjectTitle       string   `json:"project_title"`
-	ClientName         string   `json:"client_name"`
-	ProjectSummary     string   `json:"project_summary"`
-	ProjectQuotation   int      `json:"project_quotation_price"`
-	CreatedDate        string   `json:"created_date"`
-	WireframeGallery   []string `json:"wireframe_gallery"`
-	RequiredTechSkills []string `json:"required_tech_skills"`
-	Deadline           string   `json:"deadline"`
-	PriorityLevel      string   `json:"priority_level"`
-	ContactEmail       string   `json:"contact_email"`
-	ProjectStatus      string   `json:"project_status"`
-	RepositoryLink     string   `json:"repository_link"`
-	DesignToolUsed     string   `json:"design_tool_used"`
-	Notes              string   `json:"notes"`
+	Title            string   `json:"title"`
+	Description      string   `json:"description"`
+	Requirements     []string `json:"requirements"`
+	Budget           float64  `json:"budget"`
+	Timeline         string   `json:"timeline"`
+	Status           string   `json:"status"`
+	ClientID         string   `json:"clientId,omitempty"`
+	CreatedAt        string   `json:"createdAt,omitempty"`
+	ProjectID        string   `json:"id,omitempty"`
+	ProjectQuotation int      `json:"project_quotation_price,omitempty"`
+	ContactEmail     string   `json:"contact_email,omitempty"`
+	RepositoryLink   string   `json:"repository_link,omitempty"`
+	Notes            string   `json:"notes,omitempty"`
 }

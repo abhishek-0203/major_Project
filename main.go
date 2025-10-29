@@ -1,13 +1,16 @@
 package main
 
 import (
+	"log"
+	"majorProject/database"
 	"majorProject/src/route"
 	"majorProject/src/user/forgot"
-	"majorProject/src/user/login"
-	"majorProject/src/user/middleware"
-	"majorProject/src/user/signup"
+	login "majorProject/src/user/login"
+	jwtMiddleware "majorProject/src/user/middleware"
+	signup "majorProject/src/user/signup"
 	"majorProject/src/user/verify"
 	"majorProject/src/video"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,32 +32,42 @@ func CORSMiddleware() gin.HandlerFunc {
 }
 
 func main() {
+	// Initialize MongoDB connection
+	if err := database.InitDB(); err != nil {
+		log.Fatalf("Failed to connect to MongoDB: %v", err)
+	}
+	defer database.CloseDB()
+
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.Use(CORSMiddleware())
 
 	// Public routes (no JWT required)
-	router.POST("/login", login.LoginRequestWithPost)
-	router.POST("/signup", signup.SignUpRequestWithPost)
-	router.GET("/forgotpassword", forgot.ForgotPasswordWithGet)
-	router.GET("/reset-password", forgot.ResetPasswordWithGet)
-	router.GET("/verify-email", verify.VerifyEmailWithGet)
+	router.POST("/api/login", login.LoginRequestWithPost)
+	router.POST("/api/signup", signup.SignUpRequestWithPost)
+	router.POST("/api/forgotPassword", forgot.ForgotPasswordWithGet)
+	router.GET("/api/verify", verify.VerifyEmailWithGet)
+	router.POST("/api/resetPassword", forgot.ResetPasswordWithGet)
 
 	// Protected routes (JWT required)
-	protected := router.Group("/")
-	protected.Use(middleware.JWTAuthMiddleware())
-	{
-		route.RegisterProject(protected)
-		route.RegisterClient(protected)
-		route.RegisterDeveloper(protected)
-		route.RegisterChat(protected)
-		video.RegisterVideoCallRoutes(protected)
-		route.RegisterPaymentRoutes(protected)
+	var protected *gin.RouterGroup
+	protected = router.Group("/api")
+	protected.Use(jwtMiddleware.JWTAuthMiddleware())
 
-		// Add other protected routes here
+	// Register routes for projects, clients, developers, etc.
+	route.RegisterProject(protected)
+	route.RegisterClient(protected)
+	route.RegisterDeveloper(protected)
+	route.RegisterChat(protected)
+	video.RegisterVideoCallRoutes(protected)
+
+	router.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Route not found"})
+	})
+
+	// Start the server
+	if err := router.Run(":8081"); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
 	}
 
-	err := router.Run(":8081")
-	if err != nil {
-		panic(err)
-	}
 }

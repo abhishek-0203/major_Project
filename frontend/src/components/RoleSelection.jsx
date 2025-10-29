@@ -11,55 +11,34 @@ const RoleSelection = ({ mode }) => {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 4,
-        p: 4,
-      }}
-    >
-      <Typography variant="h4" gutterBottom>
-        Select Your Role
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 4 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+      <Box sx={{ display: 'flex', gap: 24, alignItems: 'stretch', flexWrap: 'wrap', justifyContent: 'center' }}>
         <Paper
-          elevation={3}
-          sx={{
-            p: 3,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            cursor: 'pointer',
-            '&:hover': { bgcolor: 'action.hover' },
-          }}
+          className="card"
+          elevation={6}
+          sx={{ width: 320, p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }}
           onClick={() => handleRoleSelect('client')}
         >
-          <Person sx={{ fontSize: 60, mb: 2 }} />
+          <Box sx={{ width: 72, height: 72, borderRadius: 16, display: 'grid', placeItems: 'center', background: 'linear-gradient(135deg,#6a9cff,#7b61ff)', mb: 2 }}>
+            <Person sx={{ color: 'white', fontSize: 36 }} />
+          </Box>
           <Typography variant="h6">Client</Typography>
-          <Typography variant="body2" color="text.secondary" align="center">
-            Looking to hire developers
-          </Typography>
+          <Typography className="muted" sx={{ textAlign: 'center', mt: 1 }}>Hire pre-vetted developers for your projects.</Typography>
+          <Button variant="contained" sx={{ mt: 3, width: '100%' }} onClick={() => handleRoleSelect('client')}>Get Started</Button>
         </Paper>
 
         <Paper
-          elevation={3}
-          sx={{
-            p: 3,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            cursor: 'pointer',
-            '&:hover': { bgcolor: 'action.hover' },
-          }}
+          className="card"
+          elevation={6}
+          sx={{ width: 320, p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }}
           onClick={() => handleRoleSelect('developer')}
         >
-          <Code sx={{ fontSize: 60, mb: 2 }} />
+          <Box sx={{ width: 72, height: 72, borderRadius: 16, display: 'grid', placeItems: 'center', background: 'linear-gradient(135deg,#34d399,#3b82f6)', mb: 2 }}>
+            <Code sx={{ color: 'white', fontSize: 36 }} />
+          </Box>
           <Typography variant="h6">Developer</Typography>
-          <Typography variant="body2" color="text.secondary" align="center">
-            Looking for projects
-          </Typography>
+          <Typography className="muted" sx={{ textAlign: 'center', mt: 1 }}>Find meaningful projects and grow your portfolio.</Typography>
+          <Button variant="contained" sx={{ mt: 3, width: '100%' }} onClick={() => handleRoleSelect('developer')}>Join Now</Button>
         </Paper>
       </Box>
     </Box>

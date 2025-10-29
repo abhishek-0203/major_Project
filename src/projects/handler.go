@@ -1,8 +1,9 @@
 package projects
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func RegisterProject(route *gin.RouterGroup) {
@@ -40,7 +41,7 @@ func CreateProject(c *gin.Context) {
 }
 
 func UpdateProject(c *gin.Context) {
-	title := c.Param("title")
+	projectID := c.Param("id")
 	var updatedProject Project
 	if err := c.BindJSON(&updatedProject); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -48,14 +49,17 @@ func UpdateProject(c *gin.Context) {
 	}
 	projects, _ := LoadProjects()
 	for i, proj := range projects {
-		if proj.ProjectTitle == title {
+		if proj.ProjectID == projectID {
+			// Preserve the original ID and creation time
+			updatedProject.ProjectID = proj.ProjectID
+			updatedProject.CreatedAt = proj.CreatedAt
 			projects[i] = updatedProject
 			err := SaveProjects(projects)
 			if err != nil {
 				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 				return
 			}
-			c.JSON(http.StatusOK, gin.H{"message": "Project updated"})
+			c.JSON(http.StatusOK, gin.H{"message": "Project updated", "project": updatedProject})
 			return
 		}
 	}
@@ -63,10 +67,10 @@ func UpdateProject(c *gin.Context) {
 }
 
 func DeleteProject(c *gin.Context) {
-	title := c.Param("title")
+	projectID := c.Param("id")
 	projects, _ := LoadProjects()
 	for i, proj := range projects {
-		if proj.ProjectTitle == title {
+		if proj.ProjectID == projectID {
 			projects = append(projects[:i], projects[i+1:]...)
 			err := SaveProjects(projects)
 			if err != nil {

@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-
+	"os"
 	"strconv"
+	"time"
+
+	"majorProject/src/projects"
 
 	"github.com/gin-gonic/gin"
-	"majorProject/src/projects"
 )
 
 // Utility function to write back to file
@@ -37,14 +39,45 @@ func RegisterProject(route *gin.RouterGroup) {
 	route.POST("/createProject", func(c *gin.Context) {
 		var newProject projects.Project
 		if err := c.ShouldBindJSON(&newProject); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project data: " + err.Error()})
 			return
 		}
 
+		// Validate required fields
+		if newProject.Title == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Project title is required"})
+			return
+		}
+		if newProject.Description == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Project description is required"})
+			return
+		}
+		if newProject.Budget <= 0 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Project budget must be greater than 0"})
+			return
+		}
+
+		// Set default values
+		if newProject.Status == "" {
+			newProject.Status = "open"
+		}
+
+		// Get current timestamp
+		currentTime := time.Now().Format(time.RFC3339)
+		newProject.CreatedAt = currentTime
+
+		// Generate a unique project ID
+		newProject.ProjectID = "proj_" + strconv.FormatInt(time.Now().UnixNano(), 10)
+
 		projectsList, err := projects.LoadProjectsFromFile(filePath)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			return
+			// If file doesn't exist, create new slice
+			if os.IsNotExist(err) {
+				projectsList = []projects.Project{}
+			} else {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to load projects: " + err.Error()})
+				return
+			}
 		}
 
 		projectsList = append(projectsList, newProject)

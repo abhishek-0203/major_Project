@@ -1,6 +1,3 @@
-{
-"projects": 
-
 [
   {
     "project_title": "Crypto Portfolio Tracker",
@@ -95,6 +92,21 @@
     "repository_link": "https://github.com/client/fitness-app",
     "design_tool_used": "Adobe XD",
     "notes": "Ensure calorie tracking logic is accurate."
+  },
+  {
+    "project_title": "",
+    "client_name": "",
+    "project_summary": "",
+    "project_quotation_price": 0,
+    "created_date": "",
+    "wireframe_gallery": null,
+    "required_tech_skills": null,
+    "deadline": "",
+    "priority_level": "",
+    "contact_email": "",
+    "project_status": "",
+    "repository_link": "",
+    "design_tool_used": "",
+    "notes": ""
   }
 ]
-}
